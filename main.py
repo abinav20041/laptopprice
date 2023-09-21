@@ -3,7 +3,7 @@ import pickle
 import sklearn
 import numpy as np
 
-st.title("FORECASTING LAPTOP PRICES THROUGH MACHINE LEARNING MODELS")
+st.title("PREDICTING LAPTOP PRICES THROUGH MACHINE LEARNING MODELS")
 
 pipe = pickle.load(open('pipe.pkl', 'rb'))
 df = pickle.load(open('data.pkl', 'rb'))
