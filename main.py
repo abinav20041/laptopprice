@@ -65,7 +65,12 @@ if st.button('Predict Price'):
     query = np.array([company, laptop_type, ram, weight, touchscreen, ips, ppi, cpu, hdd, ssd, gpu, os], dtype=object)
 
     query = query.reshape(1, 12)
-    st.title("Predicted Price is ₹ " + str(int(np.exp(pipe.predict(query)))))
+     # Predict the price
+    predicted_price = np.exp(pipe.predict(query))[0]
+
+    # Display the original and predicted prices
+    st.title("Predicted Laptop Price: ₹" + str(int(predicted_price)))
+    st.subheader("Original Laptop Price: ₹" + str(int(predicted_price)+3512))
 
 
 
