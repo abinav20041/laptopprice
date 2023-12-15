@@ -3,6 +3,7 @@ import pickle
 import sklearn
 import numpy as np
 
+
 st.title("PREDICTING LAPTOP PRICES THROUGH MACHINE LEARNING MODELS")
 
 pipe = pickle.load(open('pipe.pkl', 'rb'))
@@ -70,15 +71,21 @@ if st.button('Predict Price'):
 
     # Display the original and predicted prices
     st.title("Predicted Laptop Price: ₹" + str(int(predicted_price)))
-    st.subheader("Original Laptop Price: ₹" + str(int(predicted_price)+3512))
+    
+    filtered_df = df.loc[(df['Company'] == company) &
+                         (df['TypeName'] == laptop_type) &
+                         (df['Ram'] == ram) &
+                         (df['Weight'] == weight) &
+                         (df['Touchscreen'] == touchscreen) &
+                         (df['IPS'] == ips) &
+                         (df['Cpu brand'] == cpu) &
+                         (df['HDD'] == hdd) &
+                         (df['SSD'] == ssd) &
+                         (df['Gpu brand'] == gpu) &
+                         (df['os'] == os)]
 
-
-
-
-
-
-
-
-
-
-
+    if not filtered_df.empty:
+        original_price = filtered_df['Price'].values
+        st.title("Original Laptop Price: ₹" + str(original_price[0]))
+    else:
+        st.title("Original Laptop Price: Not available")
