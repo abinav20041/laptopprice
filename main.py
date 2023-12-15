@@ -2,12 +2,17 @@ import streamlit as st
 import pickle
 import sklearn
 import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+
+
 
 
 st.title("PREDICTING LAPTOP PRICES THROUGH MACHINE LEARNING MODELS")
 
 pipe = pickle.load(open('pipe.pkl', 'rb'))
 df = pickle.load(open('data.pkl', 'rb'))
+
 
 # brand
 company = st.selectbox('Brand', df['Company'].unique())
@@ -87,5 +92,17 @@ if st.button('Predict Price'):
     if not filtered_df.empty:
         original_price = filtered_df['Price'].values
         st.title("Original Laptop Price: ₹" + str(original_price[0]))
+    
     else:
         st.title("Original Laptop Price: Not available")
+    
+    X=df.drop('Price',axis=1)
+    print(X)
+    y=df['Price']
+    print(y)
+    X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=42)
+    y_pred1=np.exp(pipe.predict(X_test))
+    print(y_pred1)
+    print(y_test)
+    df2=pd.DataFrame({"Actual":y_test[:51],"predicted":y_pred1[:51]})
+    st.line_chart(df2,x=None,y=["Actual","predicted"],)
